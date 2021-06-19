@@ -8,4 +8,3 @@ module.exports = {
   client: 'pg',
   connection: PG_CONNECTION,
 };
-
