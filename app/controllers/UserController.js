@@ -1,0 +1,1 @@
+// const UserController = module.exports;
