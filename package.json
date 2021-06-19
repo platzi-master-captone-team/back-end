@@ -16,5 +16,12 @@
   "bugs": {
     "url": "https://github.com/platzi-master-captone-team/back-end/issues"
   },
-  "homepage": "https://github.com/platzi-master-captone-team/back-end#readme"
+  "homepage": "https://github.com/platzi-master-captone-team/back-end#readme",
+  "devDependencies": {
+    "dotenv": "10.0.0"
+  },
+  "dependencies": {
+    "knex": "0.95.6",
+    "pg": "^8.6.0"
+  }
 }
