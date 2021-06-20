@@ -1,14 +1,6 @@
 const UserService = module.exports;
-
-const bcrypt = require('bcrypt');
-
+const { hashPassword } = require('../utils/bcrypt');
 const UserRepository = require('../repositories/UserRepositories');
-
-async function hashPassword(password) {
-  const salt = await bcrypt.genSalt(10);
-
-  return bcrypt.hash(password, salt);
-}
 
 UserService.getUsers = async () => {
   const usersInfo = await UserRepository.getUsers();
