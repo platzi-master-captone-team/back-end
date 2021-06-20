@@ -68,7 +68,6 @@ UserController.getUserById = async (req, res) => {
 UserController.createNewUser = async (req, res) => {
   try {
     const data = await UserService.createNewUser(req.body);
-    console.log(data);
     return res.status(201).send(data);
   } catch (error) {
     return boom.internal(error);
