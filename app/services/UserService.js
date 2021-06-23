@@ -14,11 +14,19 @@ UserService.getUserById = async (userId) => {
   return userInfo;
 };
 
-UserService.createNewUser = async (data) => {
-  const password = await hashPassword(data.password);
+UserService.getUserByEmail = async (userEmail) => {
+  const userInfo = await UserRepository.getUserByEmail(userEmail);
+  return userInfo;
+};
 
-  const [newUser] = await UserRepository.insertNewUser({ ...data, password });
-  return { id: newUser };
+UserService.createNewUser = async (data) => {
+  let password;
+  if (data.password) {
+    password = await hashPassword(data.password);
+  }
+
+  const newUser = await UserRepository.insertNewUser({ ...data, password });
+  return newUser;
 };
 
 UserService.updateUserById = async (userId, data) => {
