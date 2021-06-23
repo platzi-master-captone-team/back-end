@@ -7,7 +7,7 @@ function validate(data, schema) {
 }
 
 function validationHandler(schema, check = 'body') {
-  return function (req, res, next) {
+  return (req, _res, next) => {
     const error = validate(req[check], schema);
     // eslint-disable-next-line no-unused-expressions
     error ? next(boom.badRequest(error)) : next();

@@ -17,7 +17,7 @@ const config = require('../config');
  * @apiError (500) {Object} System error.
  */
 // eslint-disable-next-line consistent-return
-UserController.getUsers = async (req, res) => {
+UserController.getUsers = async (_req, res) => {
   try {
     const data = await UserService.getUsers();
     return res.send(data);
@@ -127,14 +127,18 @@ UserController.login = async (req, res) => {
     }
     const areEqual = await bcrypt.validatePass(password, user.password);
     if (areEqual) {
-      // eslint-disable-next-line camelcase
-      const { id, role_id, name, email } = user;
+      const {
+        id,
+        role_id, // eslint-disable-line
+        name,
+        email: userEmail,
+      } = user;
       const dataForToken = {
         user: {
           id,
           name,
           role_id,
-          email,
+          userEmail,
         },
       };
       const token = jwt(dataForToken);
