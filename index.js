@@ -4,12 +4,13 @@ const cors = require('cors');
 const passport = require('passport');
 
 const routes = require('./app/routes');
+require('./app/utils/mongoose');
 
 const { PORT } = process.env;
 
 const app = express();
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(passport.initialize());
 
