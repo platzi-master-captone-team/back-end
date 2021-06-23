@@ -2,7 +2,7 @@
 /* eslint-disable prefer-arrow-callback */
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-//const LinkedInStrategy = require('passport-linkedin').Strategy;
+// const LinkedInStrategy = require('passport-linkedin').Strategy;
 const config = require('../config');
 const UserService = require('../services/UserService');
 
@@ -13,7 +13,7 @@ passport.use(
       clientSecret: config.passport.google.clientSecret,
       callbackURL: '/api/user/auth/google/callback',
     },
-    async function (token, tokenSecret, profile, done) {
+    async (token, tokenSecret, profile, done) => {
       try {
         let user = await UserService.getUserByEmail(profile._json.email);
         if (!user) {
@@ -52,11 +52,11 @@ passport.use(
 //   ),
 // );
 
-passport.serializeUser(function (user, cb) {
+passport.serializeUser((user, cb) => {
   cb(null, user);
 });
 
-passport.deserializeUser(function (obj, cb) {
+passport.deserializeUser((obj, cb) => {
   cb(null, obj);
 });
 

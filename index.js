@@ -13,7 +13,7 @@ app.use(express.urlencoded());
 app.use(cors());
 app.use(passport.initialize());
 
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.send({ status: 'OK' });
 });
 
