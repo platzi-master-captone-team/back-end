@@ -2,6 +2,9 @@ const UserController = module.exports;
 const boom = require('@hapi/boom');
 
 const UserService = require('../services/UserService');
+const bcrypt = require('../utils/bcrypt');
+const jwt = require('../utils/jwt');
+const config = require('../config');
 
 /**
  * @api {get} /api/user/ Get the information of all users
@@ -14,7 +17,7 @@ const UserService = require('../services/UserService');
  * @apiError (500) {Object} System error.
  */
 // eslint-disable-next-line consistent-return
-UserController.getUsers = async (req, res) => {
+UserController.getUsers = async (_req, res) => {
   try {
     const data = await UserService.getUsers();
     return res.send(data);
@@ -67,8 +70,21 @@ UserController.getUserById = async (req, res) => {
  */
 UserController.createNewUser = async (req, res) => {
   try {
+    const user = await UserService.getUserByEmail(req.body.email);
+    if (user) {
+      return res.status(400).send({ error: 'User already exists' });
+    }
     const data = await UserService.createNewUser(req.body);
-    return res.status(201).send(data);
+    const dataForToken = {
+      user: {
+        id: data.id,
+        name: data.name,
+        role_id: data.role_id,
+        email: data.email,
+      },
+    };
+    const token = jwt(dataForToken);
+    return res.status(201).send({ token });
   } catch (error) {
     return boom.internal(error);
   }
@@ -99,5 +115,39 @@ UserController.updateUserById = async (req, res) => {
     return res.send(data);
   } catch (error) {
     return boom.internal(error);
+  }
+};
+
+UserController.login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await UserService.getUserByEmail(email);
+    if (!user) {
+      return boom.badData('Invalid Username or password');
+    }
+    const areEqual = await bcrypt.validatePass(password, user.password);
+    if (areEqual) {
+      const {
+        id,
+        role_id, // eslint-disable-line
+        name,
+        email: userEmail,
+      } = user;
+      const dataForToken = {
+        user: {
+          id,
+          name,
+          role_id,
+          userEmail,
+        },
+      };
+      const token = jwt(dataForToken);
+      return res.status(200).send({
+        token,
+      });
+    }
+    return res.status(403).send({ error: 'Invalid email or password' });
+  } catch (error) {
+    return boom.internal(error.message);
   }
 };
