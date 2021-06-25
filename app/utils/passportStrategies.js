@@ -20,8 +20,9 @@ passport.use(
           const dataToSave = {
             name: profile._json.name,
             email: profile._json.email,
+            role_id: 1,
           };
-          user = UserService.createNewUser(dataToSave);
+          user = await UserService.createNewUser(dataToSave);
         }
         return done(null, user);
       } catch (error) {
