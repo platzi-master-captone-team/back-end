@@ -2,7 +2,7 @@
 /* eslint-disable prefer-arrow-callback */
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-// const LinkedInStrategy = require('passport-linkedin').Strategy;
+const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 const config = require('../config');
 const UserService = require('../services/UserService');
 
@@ -32,26 +32,32 @@ passport.use(
   ),
 );
 
-// passport.use(
-//   new LinkedInStrategy(
-//     {
-//       consumerKey: config.passport.linkedin.consumerKey,
-//       consumerSecret: config.passport.linkedin.consumerSecret,
-//       callbackURL: '',
-//     },
-//     function (token, tokenSecret, profile, done) {
-//       try {
-//         let user = UserService.getUserByEmail(profile.email);
-//         if (!user) {
-//           user = UserService.createNewUser(profile);
-//         }
-//         return done(null, user);
-//       } catch (error) {
-//         return done(error, null);
-//       }
-//     },
-//   ),
-// );
+passport.use(
+  new LinkedInStrategy(
+    {
+      clientID: config.passport.linkedin.consumerKey,
+      clientSecret: config.passport.linkedin.consumerSecret,
+      callbackURL: '/api/user/auth/linkedin/callback',
+      scope: ['r_emailaddress', 'r_liteprofile'],
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        let user = await UserService.getUserByEmail(profile.emails[0].value);
+        if (!user) {
+          const dataToSave = {
+            name: profile.displayName,
+            email: profile.emails[0].value,
+            role_id: 1,
+          };
+          user = await UserService.createNewUser(dataToSave);
+        }
+        return done(null, user);
+      } catch (error) {
+        return done(error, null);
+      }
+    },
+  ),
+);
 
 passport.serializeUser((user, cb) => {
   cb(null, user);

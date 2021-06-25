@@ -22,11 +22,15 @@ router.put(
   UserController.updateUserById,
 );
 router.post('/login', validate(LoginSchema), UserController.login);
+router.get('/auth/linkedin', passport.authenticate('linkedin'));
 router.get(
-  '/auth/linkedin',
-  passport.authenticate('linkedin', { scope: ['email'] }),
+  '/auth/linkedin/callback',
+  passport.authenticate('linkedin'),
+  (req, res) => {
+    const token = signToken(req);
+    res.status(200).send({ token });
+  },
 );
-router.get('/auth/linkedin/callback', passport.authenticate('linkedin'));
 router.get(
   '/auth/google',
   passport.authenticate('google', {
