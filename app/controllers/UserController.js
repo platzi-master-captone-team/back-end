@@ -1,10 +1,10 @@
+/* eslint-disable camelcase */
 const UserController = module.exports;
 const boom = require('@hapi/boom');
 
 const UserService = require('../services/UserService');
 const bcrypt = require('../utils/bcrypt');
 const jwt = require('../utils/jwt');
-const config = require('../config');
 
 /**
  * @api {get} /api/user/ Get the information of all users
@@ -74,7 +74,13 @@ UserController.createNewUser = async (req, res) => {
     if (user) {
       return res.status(400).send({ error: 'User already exists' });
     }
-    const data = await UserService.createNewUser(req.body);
+
+    const userData = req.body;
+    // eslint-disable-next-line prefer-const
+    let { phone_number, ...restUserData } = userData;
+    phone_number = parseInt(phone_number, 10);
+    restUserData.phone_number = phone_number;
+    const data = await UserService.createNewUser(restUserData);
     const dataForToken = {
       user: {
         id: data.id,
