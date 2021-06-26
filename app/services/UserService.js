@@ -36,3 +36,11 @@ UserService.updateUserById = async (userId, data) => {
 
   return updatedData;
 };
+
+/*
+UserService.getUserDetailById(userId) {
+  const userInfo = await UserRepository.getUserById(userId);
+
+  return userInfo
+
+}*/

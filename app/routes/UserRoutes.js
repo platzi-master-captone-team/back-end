@@ -15,6 +15,7 @@ const router = express.Router();
 
 router.get('/', UserController.getUsers);
 router.get('/:userId', UserController.getUserById);
+router.get('/:userId/detail', UserController.getUserDetailById);
 router.post('/', validate(CreateNewUserSchema), UserController.createNewUser);
 router.put(
   '/:userId',
