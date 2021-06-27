@@ -4,7 +4,6 @@ const boom = require('@hapi/boom');
 const UserService = require('../services/UserService');
 const bcrypt = require('../utils/bcrypt');
 const jwt = require('../utils/jwt');
-const config = require('../config');
 
 /**
  * @api {get} /api/user/ Get the information of all users
