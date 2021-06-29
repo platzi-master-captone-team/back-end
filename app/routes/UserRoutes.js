@@ -1,5 +1,6 @@
 // User related routes
 const express = require('express');
+
 const {
   CreateNewUserSchema,
   UpdateUserSchema,
@@ -7,7 +8,7 @@ const {
 } = require('../validators/UserSchema');
 const passport = require('../utils/passportStrategies');
 const validate = require('../middleware/ValidationHandler');
-const signToken = require('../utils/jwt');
+const redirectToConsultify = require('../utils/redirectToConsultify');
 
 const UserController = require('../controllers/UserController');
 
@@ -26,10 +27,7 @@ router.get('/auth/linkedin', passport.authenticate('linkedin'));
 router.get(
   '/auth/linkedin/callback',
   passport.authenticate('linkedin'),
-  (req, res) => {
-    const token = signToken(req);
-    res.status(200).send({ token });
-  },
+  redirectToConsultify,
 );
 router.get(
   '/auth/google',
@@ -40,10 +38,7 @@ router.get(
 router.get(
   '/auth/google/callback',
   passport.authenticate('google'),
-  (req, res) => {
-    const token = signToken(req);
-    res.status(200).send({ token });
-  },
+  redirectToConsultify,
 );
 
 module.exports = router;
