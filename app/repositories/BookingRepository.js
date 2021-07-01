@@ -37,3 +37,19 @@ BookingRepository.getCompletedBookingsByConsultorId = async (userId) => {
   });
   return data;
 };
+
+BookingRepository.getAvailability = async (userId) => {
+  const data = await db('slots')
+    .select(
+      'slots.date',
+      db.raw("STRING_AGG(slot_details.hour::character varying, ',') slots"),
+    )
+    .innerJoin('slot_details', 'slots.id', 'slot_details.slots_id')
+    .where('slots.user_id', userId)
+    .groupBy('slots.date');
+  const result = data.map((slot) => ({
+    date: slot.date,
+    slots: slot.slots.split(','),
+  }));
+  return result;
+};

@@ -37,3 +37,8 @@ BookingService.createNewBooking = async (data) => {
   const newBooking = await BookingRepository.insertNewBooking(data);
   return newBooking;
 };
+
+BookingService.getAvailability = async (consulterId) => {
+  const availability = await BookingRepository.getAvailability(consulterId);
+  return availability;
+};

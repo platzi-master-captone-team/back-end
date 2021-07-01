@@ -42,6 +42,8 @@ router.post(
   BookingController.createNewBooking,
 );
 
+router.get('/availability/:consultor_id', BookingController.getAvailability);
+
 router.get('/verify', verify, async (req, res) => {
   const booking = await BookingController.getBookingById;
   if (!booking) {
