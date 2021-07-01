@@ -57,3 +57,16 @@ BookingController.getBookingById = async (req, res) => {
 };
 
 BookingController.createNewBooking = async (req, res) => {};
+
+BookingController.getAvailability = async (req, res) => {
+  const { consultor_id } = req.params;
+  try {
+    const data = await BookingService.getAvailability(consultor_id);
+    if (!data) {
+      return res.status(404).send({ data: null });
+    }
+    return res.status(200).send({ data });
+  } catch (error) {
+    return boom.internal(500);
+  }
+};
