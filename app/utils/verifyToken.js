@@ -15,7 +15,7 @@ async function verify(req, res, next) {
   try {
     const decoded = await jwt.verify(token, config.jwt.secret);
     if (decoded) {
-      req.userId = decoded.id;
+      req.user = decoded;
       return next();
     }
     return boom.badData('Bad Data');

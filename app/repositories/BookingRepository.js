@@ -53,3 +53,23 @@ BookingRepository.getAvailability = async (userId) => {
   }));
   return result;
 };
+
+BookingRepository.addAvailability = async (userId, data) => {
+  let result;
+  // eslint-disable-next-line no-restricted-syntax
+  for (const row of data) {
+    const insertData = {
+      user_id: userId,
+      date: row.date,
+    };
+    const id = await db('slots').insert(insertData, 'id');
+    const insertSlots = row.hours.map((hour) => ({
+      slots_id: id[0],
+      hour,
+      reserved: 0,
+    }));
+    const insertedSlots = await db('slot_details').insert(insertSlots, '*');
+    result = !!insertedSlots;
+  }
+  return result;
+};

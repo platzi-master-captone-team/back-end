@@ -67,6 +67,21 @@ BookingController.getAvailability = async (req, res) => {
     }
     return res.status(200).send({ data });
   } catch (error) {
-    return boom.internal(500);
+    return boom.internal('Internal error');
+  }
+};
+
+BookingController.addAvailability = async (req, res) => {
+  const userId = req.user.id;
+  const data = req.body.slots;
+
+  try {
+    const result = await BookingService.addAvailability(userId, data);
+    if (!result) {
+      return res.status(400).send({ result: false });
+    }
+    return res.status(201).send({ result: 'Ok' });
+  } catch (error) {
+    return boom.internal('Internal error');
   }
 };

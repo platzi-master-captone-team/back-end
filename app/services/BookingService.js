@@ -42,3 +42,8 @@ BookingService.getAvailability = async (consulterId) => {
   const availability = await BookingRepository.getAvailability(consulterId);
   return availability;
 };
+
+BookingService.addAvailability = async (userId, data) => {
+  const result = await BookingRepository.addAvailability(userId, data);
+  return result;
+};
