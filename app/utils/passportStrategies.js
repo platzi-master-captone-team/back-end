@@ -24,7 +24,11 @@ passport.use(
           };
           user = await UserService.createNewUser(dataToSave);
         }
-        return done(null, user);
+        const u = {
+          ...user,
+          avatar: profile._json.picture,
+        };
+        return done(null, u);
       } catch (error) {
         return done(error, null);
       }
@@ -51,7 +55,12 @@ passport.use(
           };
           user = await UserService.createNewUser(dataToSave);
         }
-        return done(null, user);
+        const u = {
+          ...user,
+          avatar: profile.photos[0].value,
+        };
+
+        return done(null, u);
       } catch (error) {
         return done(error, null);
       }
