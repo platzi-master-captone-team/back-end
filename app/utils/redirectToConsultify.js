@@ -8,5 +8,9 @@ module.exports = (req, res) => {
     { id, name, role_id, email, avatar },
     config.jwt.secret,
   );
-  res.redirect(`https://consultify.online?token=${encodeURIComponent(token)}`);
+  res.redirect(
+    `https://consultify.online/profile/dashboard?token=${encodeURIComponent(
+      token,
+    )}`,
+  );
 };
