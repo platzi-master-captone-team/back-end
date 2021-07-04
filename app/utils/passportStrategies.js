@@ -20,11 +20,15 @@ passport.use(
           const dataToSave = {
             name: profile._json.name,
             email: profile._json.email,
-            role_id: 1,
+            role_id: 2,
           };
           user = await UserService.createNewUser(dataToSave);
         }
-        return done(null, user);
+        const u = {
+          ...user,
+          avatar: profile._json.picture,
+        };
+        return done(null, u);
       } catch (error) {
         return done(error, null);
       }
@@ -47,11 +51,16 @@ passport.use(
           const dataToSave = {
             name: profile.displayName,
             email: profile.emails[0].value,
-            role_id: 1,
+            role_id: 2,
           };
           user = await UserService.createNewUser(dataToSave);
         }
-        return done(null, user);
+        const u = {
+          ...user,
+          avatar: profile.photos[0].value,
+        };
+
+        return done(null, u);
       } catch (error) {
         return done(error, null);
       }
