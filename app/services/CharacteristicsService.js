@@ -4,9 +4,9 @@ const TechnologyAreaRepository = require('../repositories/TechnologyAreaReposito
 const TechnologyRepository = require('../repositories/TechnologyRepository');
 
 CharacteristicsService.getUserCharacteristics = async () => {
-  const speciality = await TechnologyAreaRepository.getTechnologiesArea();
+  const masteries = await TechnologyAreaRepository.getTechnologiesArea();
 
-  const technology = await TechnologyRepository.getTechnologies();
+  const technologies = await TechnologyRepository.getTechnologies();
 
-  return { speciality, technology };
+  return { masteries, technologies };
 };

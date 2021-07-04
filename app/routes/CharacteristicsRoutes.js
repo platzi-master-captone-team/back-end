@@ -5,3 +5,5 @@ const CharacteristicsController = require('../controllers/CharacteristicsControl
 const router = express.Router();
 
 router.get('/', CharacteristicsController.getUserCharacteristics);
+
+module.exports = router;
