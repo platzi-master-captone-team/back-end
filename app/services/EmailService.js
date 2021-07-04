@@ -7,8 +7,8 @@ const EmailTemplateData = require('../utils/EmailTemplate');
 
 const { EMAIL_ADDRESS, EMAIL_PASSWORD } = process.env;
 
-EmailService.sendEmail = async (data) => {
-  const { email_label: emailLabel = BASE_EMAIL_LABEL, email_to: emailTo } = data;
+EmailService.sendEmail = (data) => {
+  const { email_label: emailLabel = BASE_EMAIL_LABEL, email_to: emailTo, params = {} } = data;
 
   const emailData = EmailTemplateData[emailLabel];
 
@@ -20,11 +20,13 @@ EmailService.sendEmail = async (data) => {
     },
   });
 
+  const content = emailData.content(params);
+
   const mailOptions = {
     from: EMAIL_ADDRESS,
     to: emailTo,
     subject: emailData.subject,
-    text: emailData.content,
+    html: content,
   };
 
   try {
