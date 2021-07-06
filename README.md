@@ -1,10 +1,8 @@
 # Consultify API
 
-### Users
+## Endpoints
 
-<details>
-<summary>Endpoints </summary>
-<!--All you need is a blank line-->
+### Users
 
 ### Get all users
 
@@ -74,14 +72,10 @@
 | `email`      | `string` | **Requerido**. user's email |
 | `password`      | `string` | **Requerido**. user's password |
 
-</details>
 
 ---
-### Metadata
 
-<details>
-<summary>Endpoints </summary>
-<!--All you need is a blank line-->
+### Metadata
 
 ### Get all metadata from users
 
@@ -118,4 +112,3 @@
 
 ---
 
-</details>
