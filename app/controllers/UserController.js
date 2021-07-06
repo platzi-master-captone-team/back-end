@@ -3,6 +3,7 @@ const UserController = module.exports;
 const boom = require('@hapi/boom');
 
 const UserService = require('../services/UserService');
+const EmailService = require('../services/EmailService');
 const bcrypt = require('../utils/bcrypt');
 const jwt = require('../utils/jwt');
 
@@ -81,6 +82,11 @@ UserController.createNewUser = async (req, res) => {
     phone_number = parseInt(phone_number, 10);
     restUserData.phone_number = phone_number;
     const data = await UserService.createNewUser(restUserData);
+    EmailService.sendEmail({
+      email_to: data.email,
+      email_label: 'register',
+      params: { user_name: data.name },
+    });
     const dataForToken = {
       user: {
         id: data.id,
@@ -89,6 +95,7 @@ UserController.createNewUser = async (req, res) => {
         email: data.email,
       },
     };
+
     const token = jwt(dataForToken);
     return res.status(201).send({ token });
   } catch (error) {
