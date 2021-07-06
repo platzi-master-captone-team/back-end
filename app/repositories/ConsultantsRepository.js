@@ -8,12 +8,14 @@ ConsultantsRepository.getConsultants = (page, size) => {
   const query = db('users')
     .join('professional_info', 'professional_info.user_id', 'users.id')
     .join('area_technologies', 'area_technologies.id', 'professional_info.area_technologie_id')
+    .join('professional_experiences', 'professional_experiences.user_id', 'users.id')
     .select(
       'users.id',
-      'users.name',
+      'users.name as user_name',
       'professional_info.hourly_rate',
       'professional_info.bio',
-      'area_technologies.name',
+      'area_technologies.name as area_technology_name',
+      'professional_experiences.job_title as profession',
     );
 
   return query.offset(offset).limit(size).orderBy('id', 'desc');
