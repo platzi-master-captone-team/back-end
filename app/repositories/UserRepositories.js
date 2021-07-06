@@ -3,8 +3,12 @@ const UserRepository = module.exports;
 const { db } = require('../utils/Database');
 
 UserRepository.insertNewUser = async (data) => {
-  const result = await db('users').insert(data, '*');
-  return result[0];
+  try {
+    const result = await db('users').insert(data, '*');
+    return result[0];
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 UserRepository.getUserById = async (userId) => {
