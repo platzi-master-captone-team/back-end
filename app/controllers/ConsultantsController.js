@@ -23,3 +23,21 @@ ConsultantsController.getConsultants = async (req, res) => {
     return boom.internal(error);
   }
 };
+
+ConsultantsController.getConsultantById = async (req, res) => {
+  const {
+    params: {
+      consultant_id: consultantId,
+    },
+  } = req;
+
+  try {
+    const data = await ConsultantsService.getConsultantById(consultantId);
+    if (!data) {
+      return res.status(404).send({ message: `User ${consultantId} does not exists` });
+    }
+    return res.send(data);
+  } catch (error) {
+    return boom.internal(error);
+  }
+};
