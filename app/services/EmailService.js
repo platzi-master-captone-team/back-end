@@ -32,7 +32,7 @@ EmailService.sendEmail = (data) => {
   try {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.log(`[[EmailResource.sendEmail][error] ${error}`);
+        console.log(`[EmailResource.sendEmail][error] ${error}`);
       } else {
         console.log(`Email sent: ${info.response}`);
       }

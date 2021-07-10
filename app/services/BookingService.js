@@ -23,8 +23,7 @@ BookingService.getCompletedBookingByUserId = async (userId) => {
 };
 
 BookingService.getCompletedBookingByConsultorId = async (consultorId) => {
-  const upcomingBookings =
-    await BookingRepository.getCompletedBookingsByConsultorId(consultorId);
+  const upcomingBookings = await BookingRepository.getCompletedBookingsByConsultorId(consultorId);
   return upcomingBookings;
 };
 

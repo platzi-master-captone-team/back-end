@@ -8,7 +8,7 @@ const BookingController = require('../controllers/BookingController');
 
 const router = express.Router();
 
-router.get('/upcoming', verify, (req, res) => {
+router.get('/upcoming', verify, (req, _res) => {
   let type;
   if (req.params.user) {
     type = 'user';
@@ -22,17 +22,16 @@ router.get('/upcoming', verify, (req, res) => {
   return action[type];
 });
 
-router.get('/completed', verify, (req, res) => {
+router.get('/completed', verify, (req, _res) => {
   let type;
-  if (req.params.user) {
-    type = 'user';
-  } else if (req.params.consultor) {
-    type = 'consulter';
-  }
+  if (req.params.user) type = 'user';
+  else if (req.params.consultor) type = 'consulter';
+
   const action = {
     user: BookingController.getCompletedUserBookings,
     consulter: BookingController.getCompletedConsulterBookings,
   };
+
   return action[type];
 });
 
@@ -46,15 +45,15 @@ router.get('/availability/:consultor_id', BookingController.getAvailability);
 
 router.get('/verify', verify, async (req, res) => {
   const booking = await BookingController.getBookingById;
-  if (!booking) {
-    return res.status(404).send({ result: 'Booking Not Found' });
-  }
+  if (!booking) return res.status(404).send({ result: 'Booking Not Found' });
+
   const now = Date.now();
   const formattedNow = convertTZ(now, booking.timezone);
   const formattedBookingStartTime = convertTZ(
     booking.start_at,
     booking.timezone,
   );
+
   const formattedBookingEndTime = convertTZ(booking.start_at, booking.timezone);
   if (req.user.id === booking.user_id || req.user.id === booking.consultor_id) {
     const diffeenceBetweenStartDates = formattedBookingStartTime - formattedNow;
@@ -66,8 +65,8 @@ router.get('/verify', verify, async (req, res) => {
       diffeenceBetweenEndDates / 1000 / 60,
     );
     if (
-      differenceInMinutesBetweenStartDates <= 10 &&
-      differenceInMinutesBetweenEndDates >= 10
+      differenceInMinutesBetweenStartDates <= 10
+      && differenceInMinutesBetweenEndDates >= 10
     ) {
       res.status(200).send({ result: true });
     } else {

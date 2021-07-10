@@ -5,7 +5,7 @@ async function hashPassword(password) {
   return bcrypt.hash(password, salt);
 }
 
-const validatePass = async (
+const validatePass = (
   userPassword,
   encryptedPassword,
 ) => bcrypt.compare(userPassword, encryptedPassword);

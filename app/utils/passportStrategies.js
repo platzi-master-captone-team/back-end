@@ -3,17 +3,17 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
-const config = require('../config');
+const { passport: passportConfig } = require('../config');
 const UserService = require('../services/UserService');
 
 passport.use(
   new GoogleStrategy(
     {
-      clientID: config.passport.google.clientID,
-      clientSecret: config.passport.google.clientSecret,
+      clientID: passportConfig.google.clientID,
+      clientSecret: passportConfig.google.clientSecret,
       callbackURL: '/api/user/auth/google/callback',
     },
-    async (token, tokenSecret, profile, done) => {
+    async (_token, _tokenSecret, profile, done) => {
       try {
         let user = await UserService.getUserByEmail(profile._json.email);
         if (!user) {
@@ -39,12 +39,12 @@ passport.use(
 passport.use(
   new LinkedInStrategy(
     {
-      clientID: config.passport.linkedin.consumerKey,
-      clientSecret: config.passport.linkedin.consumerSecret,
+      clientID: passportConfig.linkedin.consumerKey,
+      clientSecret: passportConfig.linkedin.consumerSecret,
       callbackURL: '/api/user/auth/linkedin/callback',
       scope: ['r_emailaddress', 'r_liteprofile'],
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (_accessToken, _refreshToken, profile, done) => {
       try {
         let user = await UserService.getUserByEmail(profile.emails[0].value);
         if (!user) {
