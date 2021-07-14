@@ -1,5 +1,28 @@
 # Consultify API
 
+## Technologies
+
+- Passport
+- JWT
+- Nodemailer
+- Mongoose
+- Knex
+- Express
+- Bcrypt
+- Cors
+- MongoDB
+- PostgresSQL
+
+We chose these technologies because together we determined that they were the best for each problem we needed to solve.
+
+We use two databases, the main one is that of postgresql and the secondary one is that of mongodb, we did it this way because the info that we keep in the non-relational database, we did not need it to have a relationship with the data that we already had storing in relational database.
+
+
+## ERD
+
+![drawSQL-export-2021-07-13_19_56](https://user-images.githubusercontent.com/66572419/125544472-7696aded-e298-4424-9ad6-0c2a3fad3e69.png)
+
+
 ## Endpoints
 
 ### Users
@@ -23,7 +46,7 @@
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
-| `Headers: Authorization`  |  `Bearer {token}` | **Requerido** Token del usuario debe enviarse por headers |
+| `Headers: Authorization`  |  `Bearer ${token}` | **Requerido** Token del usuario debe enviarse por headers |
 | `id`      | `string` | **Requerido**. Id del usuario a consultar |
 
 ---
